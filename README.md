@@ -17,7 +17,7 @@
 
 </div>
 
-Official PyTorch implementation of our ICLR 2025 paper for general continual learning "[Advancing Prompt-Based Methods for Replay-Independent General Continual Learning](https://openreview.net/forum?id=V6uxd8MEqw)". 
+Official PyTorch implementation of our ICLR 2025 paper for general continual learning "[Advancing Prompt-Based Methods for Replay-Independent General Continual Learning](https://openreview.net/forum?id=V6uxd8MEqw)". (ArXiv/Camera-Ready version is coming soon!)
 
 Our proposed MISA（**M**ask and **I**nitial-**S**ession **A**daptation) consists of the forgetting-aware initial session adaptation and the non-parametric logit mask to facilitate general continual learning, as presented in the following figure:
 

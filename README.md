@@ -57,3 +57,11 @@ This implementation is developed based on the source code of [MVP](https://githu
 ## CITATION
 If you find our codes or paper useful, please consider giving us a star or citing our work.
 
+```bibtex
+@inproceedings{kang2025advancing,
+title={Advancing Prompt-Based Methods for Replay-Independent General Continual Learning},
+author={Zhiqi KANG and Liyuan Wang and Xingxing Zhang and Karteek Alahari},
+booktitle={The Thirteenth International Conference on Learning Representations},
+year={2025}
+}
+

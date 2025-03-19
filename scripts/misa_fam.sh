@@ -27,7 +27,7 @@ N=101
 M=0
 GPU_TRANSFORM="--gpu_transform"
 USE_AMP="--use_amp"
-SEEDS=1
+SEEDS=1 # "1 2 3", just separate seeds by spaces
 echo "SEEEDS="$SEEDS
 
 OPT="adam"
@@ -83,7 +83,7 @@ do
     python -W ignore main.py --mode $MODE \
     --dataset $DATASET \
     --n_tasks $N_TASKS --m $M --n $N \
-    --rnd_seed $RND_SEED \
+    --seeds $SEEDS \
     --model_name $MODEL_NAME --opt_name $OPT_NAME --sched_name $SCHED_NAME \
     --lr $LR --batchsize $BATCHSIZE --temp_batchsize $TEMPBATCHSIZE  \
     --memory_size $MEM_SIZE $GPU_TRANSFORM --online_iter $ONLINE_ITER --data_dir /local_datasets \

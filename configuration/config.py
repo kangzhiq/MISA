@@ -48,6 +48,7 @@ def base_parser():
     parser.add_argument("--isa", action="store_true", default=False)
     parser.add_argument("--e_proj", action="store_true", default=False)
     parser.add_argument("--g_proj", action="store_true", default=False)
+    parser.add_argument("--seeds", type=int, nargs="+", default=[1])
 
 
     # Train

@@ -37,7 +37,7 @@ torch.multiprocessing.set_sharing_strategy('file_system')
 def main():
     # Get Configurations
     args = config.base_parser()
-    seed_lst = [1,2,3,4,5]
+    seed_lst = args.seeds
     if args.isa:
         seed_lst = [1]
     print('>>>>>>>running for seed: {}'.format(seed_lst))

@@ -83,6 +83,8 @@ class ER(_Trainer):
         return _loss / _iter, _acc / _iter
     
     def update_memory(self, sample, label):
+        for j in range(len(label)):
+            label[j] = self.exposed_classes.index(label[j].item())
         # Update memory
         if self.distributed:
             sample = torch.cat(self.all_gather(sample.to(self.device)))
@@ -117,6 +119,7 @@ class ER(_Trainer):
                 if index < self.memory_size:
                     self.memory.replace_data([sample[i], self.exposed_classes[label[i].item()]], index)
             else:
+                # print(self.exposed_classes, label[i].item())
                 self.memory.replace_data([sample[i], self.exposed_classes[label[i].item()]])
 
     def online_before_task(self, task_id):

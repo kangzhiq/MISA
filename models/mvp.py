@@ -56,6 +56,8 @@ class MVP(nn.Module):
         self.features = torch.empty(0)
         self.keys     = torch.empty(0)
 
+        self.load_pt = kwargs.get("load_pt")
+
         if backbone_name is None:
             raise ValueError('backbone_name must be specified')
         self.lambd       = lambd
@@ -104,7 +106,7 @@ class MVP(nn.Module):
 
         self.exposed_classes = 0
 
-        if load:
+        if self.load_pt:
             e_load_path = 'pretrained_prompt/e_prompt.pt'
             g_load_path = 'pretrained_prompt/g_prompt.pt'
 

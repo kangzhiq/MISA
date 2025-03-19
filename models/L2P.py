@@ -123,6 +123,8 @@ class L2P(nn.Module):
         self.features = torch.empty(0)
         self.keys     = torch.empty(0)
 
+        self.load_pt = kwargs.get("load_pt")
+
         if backbone_name is None:
             raise ValueError('backbone_name must be specified')
         if pool_size < selection_size:
@@ -137,9 +139,9 @@ class L2P(nn.Module):
         # model_kwargs = dict(
         # patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
         
-        # self.add_module('backbone', timm.models.create_model(backbone_name, pretrained=True, num_classes=class_num))
-        self.add_module('backbone', timm.models.create_model(backbone_name, pretrained=True, num_classes=class_num,
-                                                             drop_rate=0.,drop_path_rate=0.,drop_block_rate=None))
+        self.add_module('backbone', timm.models.create_model(backbone_name, pretrained=True, num_classes=class_num))
+        # self.add_module('backbone', timm.models.create_model(backbone_name, pretrained=True, num_classes=class_num,
+        #                                                      drop_rate=0.,drop_path_rate=0.,drop_block_rate=None))
         for name, param in self.backbone.named_parameters():
                 param.requires_grad = False
         self.backbone.fc.weight.requires_grad = True
@@ -158,9 +160,13 @@ class L2P(nn.Module):
         self.register_buffer('simmilarity', torch.zeros(1), persistent=False)
         self.register_buffer('unsimmilarity', torch.zeros(1), persistent=False)
 
-        if load:
+        if self.load_pt:
             e_load_path = 'pretrained_prompt/e_prompt.pt'
             g_load_path = 'pretrained_prompt/g_prompt.pt'
+    
+        if self.load_pt:
+            e_load_path = '/scratch/algorab/zkang/MVP/prompt/N101M0_T40_prompt_G10/T3_e_prompt.pt'
+            g_load_path = '/scratch/algorab/zkang/MVP/prompt/N101M0_T40_prompt_G10/T3_g_prompt.pt'
     
             print('loading from: {}'.format(g_load_path))
             pt_gpt = torch.load(g_load_path)

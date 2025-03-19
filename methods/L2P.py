@@ -28,13 +28,7 @@ import time
 import datetime
 
 import gc
-import numpy as np
-import pandas as pd
-import torch
-import torch.nn as nn
-from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
-from torch import optim
+
 
 from methods._trainer import _Trainer
 
@@ -49,15 +43,10 @@ from timm.models.registry import register_model
 from timm.models.vision_transformer import _cfg, default_cfgs
 from models.vit import _create_vision_transformer
 
-from utils.memory import MemoryBatchSampler
-from torch.utils.data import DataLoader
-import timm
-from timm.models import create_model
-from timm.models.registry import register_model
-from timm.models.vision_transformer import _cfg, default_cfgs
-from models.vit import _create_vision_transformer
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
+
+
 logger = logging.getLogger()
 writer = SummaryWriter("tensorboard")
 
@@ -96,17 +85,18 @@ class L2P(ER):
         self.add_new_class(labels)
         # train with augmented batches
         _loss, _acc, _iter = 0.0, 0.0, 0
-
-        self.memory_sampler  = MemoryBatchSampler(self.memory, self.memory_batchsize, self.temp_batchsize * self.online_iter * self.world_size)
-        self.memory_dataloader   = DataLoader(self.train_dataset, batch_size=self.memory_batchsize, sampler=self.memory_sampler, num_workers=4)
-        self.memory_provider     = iter(self.memory_dataloader)
+        if len(self.memory) > 0 and self.memory_batchsize > 0:
+            self.memory_sampler  = MemoryBatchSampler(self.memory, self.memory_batchsize, self.temp_batchsize * self.online_iter * self.world_size)
+            self.memory_dataloader   = DataLoader(self.train_dataset, batch_size=self.memory_batchsize, sampler=self.memory_sampler, num_workers=4)
+            self.memory_provider     = iter(self.memory_dataloader)
 
         for _ in range(int(self.online_iter)):
             loss, acc = self.online_train([images.clone(), labels.clone()])
             _loss += loss
             _acc += acc
             _iter += 1
-        self.update_memory(idx, labels)
+        if self.memory_size > 0:
+            self.update_memory(idx, labels)
         del(images, labels)
         gc.collect()
         return _loss / _iter, _acc / _iter
@@ -118,8 +108,8 @@ class L2P(ER):
             
         if len(self.memory) > 0 and self.memory_batchsize > 0:
             memory_images, memory_labels = next(self.memory_provider)
-            for i in range(len(memory_labels)):
-                memory_labels[i] = self.exposed_classes.index(memory_labels[i].item())
+            # for i in range(len(memory_labels)):
+            #     memory_labels[i] = self.exposed_classes.index(memory_labels[i].item())
             x = torch.cat([x, memory_images], dim=0)
             y = torch.cat([y, memory_labels], dim=0)
 

@@ -29,12 +29,12 @@ N=70
 M=10
 GPU_TRANSFORM="--gpu_transform"
 USE_AMP="--use_amp"
-SEEDS="1 2 3 4 5"
+SEEDS="1" # "1 2 3", just separate seeds by spaces
 
 OPT="adam"
 
 if [ "$DATASET" == "cifar10" ]; then
-    MEM_SIZE=500 ONLINE_ITER=1
+    MEM_SIZE=0 ONLINE_ITER=1
     MODEL_NAME="L2P" EVAL_PERIOD=1000
     BATCHSIZE=32; LR=3e-4 OPT_NAME="adam" SCHED_NAME="default" MEMORY_EPOCH=256
 
@@ -44,7 +44,7 @@ elif [ "$DATASET" == "cifar100" ]; then
     BATCHSIZE=64; LR=3e-2 OPT_NAME="adam" SCHED_NAME="default" MEMORY_EPOCH=256
 
 elif [ "$DATASET" == "tinyimagenet" ]; then
-    MEM_SIZE=4000 ONLINE_ITER=3
+    MEM_SIZE=0 ONLINE_ITER=3
     MODEL_NAME="L2P" EVAL_PERIOD=1000
     BATCHSIZE=32; LR=3e-4 OPT_NAME="adam" SCHED_NAME="default" MEMORY_EPOCH=256
 
@@ -70,9 +70,9 @@ do
     python main.py --mode $MODE \
     --dataset $DATASET \
     --n_tasks $N_TASKS --m $M --n $N \
-    --rnd_seed $RND_SEED \
+    --seeds $SEEDS \
     --model_name $MODEL_NAME --opt_name $OPT_NAME --sched_name $SCHED_NAME \
     --lr $LR --batchsize $BATCHSIZE \
-    --memory_size $MEM_SIZE $GPU_TRANSFORM --online_iter $ONLINE_ITER --data_dir /local_datasets \
+    --memory_size $MEM_SIZE $GPU_TRANSFORM --online_iter $ONLINE_ITER --data_dir /services/scratch/thoth/zkang/ \
     --note $NOTE --eval_period $EVAL_PERIOD --memory_epoch $MEMORY_EPOCH --n_worker 2
 done

@@ -165,12 +165,13 @@ class L2P(nn.Module):
             g_load_path = 'pretrained_prompt/g_prompt.pt'
     
         if self.load_pt:
-            e_load_path = '/scratch/algorab/zkang/MVP/prompt/N101M0_T40_prompt_G10/T3_e_prompt.pt'
-            g_load_path = '/scratch/algorab/zkang/MVP/prompt/N101M0_T40_prompt_G10/T3_g_prompt.pt'
+            raise NotImplementedError('Specific pretrained prompt for L2P is not provided. But you can load MISA prompt for L2P if you want (comment this line and uncomment the following code).')
+            # e_load_path = 'pretrained_prompt/e_prompt.pt'
+            # g_load_path = 'pretrained_prompt/g_prompt.pt'
     
-            print('loading from: {}'.format(g_load_path))
-            pt_gpt = torch.load(g_load_path)
-            self.prompt.load(pt_gpt.prompts)
+            # print('loading from: {}'.format(g_load_path))
+            # pt_gpt = torch.load(g_load_path)
+            # self.prompt.load(pt_gpt.prompts)
 
     def forward(self, inputs : torch.Tensor, **kwargs) -> torch.Tensor:
         self.backbone.eval()

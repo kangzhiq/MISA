@@ -107,13 +107,14 @@ class MVP(nn.Module):
         self.exposed_classes = 0
 
         if self.load_pt:
-            e_load_path = 'pretrained_prompt/e_prompt.pt'
-            g_load_path = 'pretrained_prompt/g_prompt.pt'
+            raise NotImplementedError('Specific pretrained prompt for L2P is not provided. But you can load MISA prompt for L2P if you want (comment this line and uncomment the following code).')
+            # e_load_path = 'pretrained_prompt/e_prompt.pt'
+            # g_load_path = 'pretrained_prompt/g_prompt.pt'
 
-            # self.e_prompt.load_e(e_load_path)
-            print('loading from: {}'.format(g_load_path))
-            pt_gpt = torch.load(g_load_path)
-            self.g_prompts = pt_gpt.prompts
+            # # self.e_prompt.load_e(e_load_path)
+            # print('loading from: {}'.format(g_load_path))
+            # pt_gpt = torch.load(g_load_path)
+            # self.g_prompts = pt_gpt.prompts
 
     
     @torch.no_grad()

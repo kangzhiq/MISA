@@ -51,8 +51,10 @@ To test different methods with different datasets, simply run the corresponding 
 
     . scripts/misa.sh
 
-## Acknolegment
+## Acknowledgment
 This implementation is developed based on the source code of [MVP](https://github.com/KHU-AGI/Si-Blurry/tree/main).
+
+This work was supported in part by the Institute of Information & Communications Technology Planning & Evaluation (IITP) grant funded by the Korean Government (MSIT) (No. RS-2024-00457882, National AI Research Lab Project).
 
 ## CITATION
 If you find our codes or paper useful, please consider giving us a star or citing our work.
